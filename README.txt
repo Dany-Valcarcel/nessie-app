@@ -11,3 +11,4 @@ YouTube Demo Video: https://youtu.be/Fkf5TFDekjc
 Deployed on: https://amaranth-cuttlefish-wrap.cyclic.app/
 
 To run locally: 'node server.js' or 'npm start'
+Runs locally on PORT 4000.
