@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Pokémon Team Maker</title>
+    <link rel="stylesheet" href="/teamMaker.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+<body>
+	<h1>Team Created!</h1>
+    <div id="confirmTeam">
+        <h2>Team Name: <%- name%></h2>
+        <div class="row">
+            <div class="column">
+                <div class="pokemonProfile">
+                    <span><img src="<%- pokemon1.sprite%>" alt="<%- pokemon1.pokemon%>"></span>
+                    <h3>
+                        <%- pokemon1.nickname%>
+                    </h3>
+                    <p>Species: <%- pokemon1.pokemon%></p>
+                    <p>Shiny: <%- pokemon1.shiny%></p>
+                    <p>Type: <%- pokemon1.type%></p>
+                </div>
+                <div class="pokemonProfile">
+                    <span><img src="<%- pokemon2.sprite%>" alt="<%- pokemon2.pokemon%>"></span>
+                    <h3>
+                        <%- pokemon2.nickname%>
+                    </h3>
+                    <p>Species: <%- pokemon2.pokemon%></p>
+                    <p>Shiny: <%- pokemon2.shiny%></p>
+                    <p>Type: <%- pokemon2.type%></p>
+                </div>
+                <div class="pokemonProfile">
+                    <span><img src="<%- pokemon3.sprite%>" alt="<%- pokemon3.pokemon%>"></span>
+                    <h3>
+                        <%- pokemon3.nickname%>
+                    </h3>
+                    <p>Species: <%- pokemon3.pokemon%></p>
+                    <p>Shiny: <%- pokemon3.shiny%></p>
+                    <p>Type: <%- pokemon3.type%></p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="pokemonProfile">
+                    <span><img src="<%- pokemon4.sprite%>" alt="<%- pokemon4.pokemon%>"></span>
+                    <h3>
+                        <%- pokemon4.nickname%>
+                    </h3>
+                    <p>Species: <%- pokemon4.pokemon%></p>
+                    <p>Shiny: <%- pokemon4.shiny%></p>
+                    <p>Type: <%- pokemon4.type%></p>
+                </div>
+                <div class="pokemonProfile">
+                    <span><img src="<%- pokemon5.sprite%>" alt="<%- pokemon5.pokemon%>"></span>
+                    <h3>
+                        <%- pokemon5.nickname%>
+                    </h3>
+                    <p>Species: <%- pokemon5.pokemon%></p>
+                    <p>Shiny: <%- pokemon5.shiny%></p>
+                    <p>Type: <%- pokemon5.type%></p>
+                </div>
+                <div class="pokemonProfile">
+                    <span><img src="<%- pokemon6.sprite%>" alt="<%- pokemon6.pokemon%>"></span>
+                    <h3>
+                        <%- pokemon6.nickname%>
+                    </h3>
+                    <p>Species: <%- pokemon6.pokemon%></p>
+                    <p>Shiny: <%- pokemon6.shiny%></p>
+                    <p>Type: <%- pokemon6.type%></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="backHomeButton" href="/"><strong>Back to Home</strong></a>
+</body>
+</html>
