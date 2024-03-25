@@ -1,171 +1,272 @@
 /* EXPRESS APP */
 const PORT_NUMBER = 4000;
-const http = require("http");
 const express = require("express");
 const path = require("path");
 const app = express();
 const bodyParser = require("body-parser");
+const API_KEY = "74274ef21ad66e34ff8b5c3f90397a52";
+const API_URL = "http://api.nessieisreal.com";
+const NESSIE_ID = "660083c39683f20dd5189920";
+const CARD_ACCOUNT = "66008a739683f20dd5189924";
+const SAVINGS_ACCOUNT = "6601cc1d9683f20dd5189938";
+const APPLE = "57cf75cea73e494d8675ec49";
 
-/* MONGO DB */
-require("dotenv").config({ path: path.resolve(__dirname, '.env') })
-const db = process.env.MONGO_DB_NAME;
-const collection = process.env.MONGO_COLLECTION;
-const username = process.env.MONGO_DB_USERNAME;
-const password = process.env.MONGO_DB_PASSWORD;
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = `mongodb+srv://${username}:${password}@cluster0.qzqj9nb.mongodb.net/?retryWrites=true&w=majority`;
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+var lat = null;
+var lng = null;
+var rad = null;
 
 app.set("views", path.resolve(__dirname, "templates"));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(express.static(__dirname + '/style'));
 app.use(express.static(__dirname + '/assets'));
+app.use(express.json());
 
 // Home Page
 app.get("/", (request, response) => { 
     response.render("index");
 });
 
-app.get("/build", (request, response) => { 
-    response.render("build");
+app.get("/searchATMs", (request, response) => { 
+    response.render("searchATMs");
 });
 
-async function newPokemon(pokemon, nickname, isShiny) {
-    let pk = pokemon.toLowerCase();
-    const apiURL = `https://pokeapi.co/api/v2/pokemon/${pk}`;
-    let sprite;
-    const res = await fetch(apiURL);
-    const data = await res.json();
+app.get("/addAccount", (request, response) => { 
+    response.render("addAccount");
+});
 
-    if (isShiny){
-        sprite = data.sprites["front_shiny"];
-    } else {
-        sprite = data.sprites["front_default"];
-    }
-    const type = data.types.map(type => type.type.name).join(", ");
-    pokemon = pk.charAt(0).toUpperCase() + pk.slice(1)
-
-    return {
-        pokemon: pokemon, 
-        nickname: (nickname ? nickname : pokemon), 
-        shiny: isShiny,
-        sprite: sprite,
-        type: type
-    };
-}
-
-app.post("/buildConfirm", async (request, response) => { 
+app.post("/accountCreated", async (request, response) => { 
     const {
-        teamName,
-        pk1, nn1, sh1,
-        pk2, nn2, sh2,
-        pk3, nn3, sh3,
-        pk4, nn4, sh4,
-        pk5, nn5, sh5,
-        pk6, nn6, sh6
+        type,
+        nickname,
+        rewards,
+        balance
     } = request.body;
 
-    const pokemon1 = await newPokemon(pk1, nn1, (sh1 ? true : false));
-    const pokemon2 = await newPokemon(pk2, nn2, (sh2 ? true : false));
-    const pokemon3 = await newPokemon(pk3, nn3, (sh3 ? true : false));
-    const pokemon4 = await newPokemon(pk4, nn4, (sh4 ? true : false));
-    const pokemon5 = await newPokemon(pk5, nn5, (sh5 ? true : false));
-    const pokemon6 = await newPokemon(pk6, nn6, (sh6 ? true : false));
-
-    const newTeam = {
-        name: teamName,
-        pokemon1: pokemon1,
-        pokemon2: pokemon2,
-        pokemon3: pokemon3,
-        pokemon4: pokemon4,
-        pokemon5: pokemon5,
-        pokemon6: pokemon6
+    const newAccount = {
+        type: type,
+        nickname: nickname,
+        rewards: parseInt(rewards),
+        balance: parseInt(balance)
     };
 
-    await client.db(db).collection(collection).insertOne(newTeam);
-    response.render("buildConfirm", newTeam);
+    let res = await fetch(`${API_URL}/customers/${NESSIE_ID}/accounts?key=${API_KEY}`, {
+        method: "POST",
+        body: JSON.stringify(newAccount),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+      });
+
+    let account = await res.json();
+    
+    response.render("accountCreated", account["objectCreated"]);
 });
 
-app.get("/viewAllTeams", async (request, response) => { 
-    let filter = {};
-    const cursor = client.db(db)
-        .collection(collection)
-        .find(filter);
+app.get("/addBill", (request, response) => { 
+    response.render("addBill");
+});
+
+app.post("/billCreated", async (request, response) => { 
+    const {
+        nickname,
+        payee,
+        payment_date,
+        recurring_date,
+        payment_amount
+    } = request.body;
+
+    const newBill = {
+        status: "pending",
+        nickname: nickname,
+        payee: payee,
+        payment_date: payment_date,
+        recurring_date: parseInt(recurring_date),
+        payment_amount: parseInt(payment_amount)
+    };
+
+    let res = await fetch(`${API_URL}/accounts/${CARD_ACCOUNT}/bills?key=${API_KEY}`, {
+        method: "POST",
+        body: JSON.stringify(newBill),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+      });
+
+    let bill = await res.json();
+    
+    response.render("billCreated", bill["objectCreated"]);
+});
+
+app.get("/addPurchase", (request, response) => { 
+    response.render("addPurchase");
+});
+
+app.post("/purchaseCreated", async (request, response) => { 
+    const {
+        purchase_date,
+        amount,
+        description
+    } = request.body;
+
+    const newPurchase = {
+        merchant_id: APPLE,
+        status: "pending",
+        medium: "balance",
+        purchase_date: purchase_date,
+        amount: parseInt(amount),
+        description: description
+    };
+
+    let res = await fetch(`${API_URL}/accounts/${CARD_ACCOUNT}/purchases?key=${API_KEY}`, {
+        method: "POST",
+        body: JSON.stringify(newPurchase),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+      });
+
+    let purchase = await res.json();
+    
+    response.render("purchaseCreated", purchase["objectCreated"]);
+});
+
+app.get("/viewPurchases", async (request, response) => { 
+    const res = await fetch(`${API_URL}/accounts/${CARD_ACCOUNT}/purchases?key=${API_KEY}`);
         
-    const teams = await cursor.toArray();
-    let teamListHTML = "";
-    for (let t of teams) {
-        teamListHTML += `<a class="teamLink" href="/viewTeam/${t.name}"><div class="teamPreview"><h3>${t.name}</h3>`;
-        teamListHTML += `<span><img src="${t.pokemon1.sprite}" alt="${t.pokemon1.pokemon}"></span>`;
-        teamListHTML += `<span><img src="${t.pokemon2.sprite}" alt="${t.pokemon2.pokemon}"></span>`;
-        teamListHTML += `<span><img src="${t.pokemon3.sprite}" alt="${t.pokemon3.pokemon}"></span>`;
-        teamListHTML += `<span><img src="${t.pokemon4.sprite}" alt="${t.pokemon4.pokemon}"></span>`;
-        teamListHTML += `<span><img src="${t.pokemon5.sprite}" alt="${t.pokemon5.pokemon}"></span>`;
-        teamListHTML += `<span><img src="${t.pokemon6.sprite}" alt="${t.pokemon6.pokemon}"></span>`;
-        teamListHTML += `</a></div>`
+    const purchases = await res.json();
+    let listHTML = "";
+    for (let p of purchases) {
+        listHTML += `<p>Purchase ID: ${p._id} | Amount: ${p.amount} | Purchase Date: ${p.purchase_date} | Status: ${p.status}</p>`;
     }
-    const variables = {teams: teamListHTML};
-    response.render("viewAllTeams", variables);
+
+    if (listHTML.length == 0) {
+        listHTML += `<p>No Purchases Made!</p>`;
+    }
+
+    const variables = {purchases: listHTML};
+    response.render("viewPurchases", variables);
 });
 
-app.get("/viewTeam/:name", async (request, response) => {
-    const name = request.params.name;
-    // process.stdout.write(String(name));
-    let filter = {name: name};
-    const cursor = client.db(db)
-        .collection(collection)
-        .find(filter);
-    
-    const t = await cursor.toArray();
-    const pokemon1 = t[0].pokemon1;
-    const pokemon2 = t[0].pokemon2;
-    const pokemon3 = t[0].pokemon3;
-    const pokemon4 = t[0].pokemon4;
-    const pokemon5 = t[0].pokemon5;
-    const pokemon6 = t[0].pokemon6;
-    
-    const variables = {
-        name: t[0].name,
-        pokemon1: pokemon1,
-        pokemon2: pokemon2,
-        pokemon3: pokemon3,
-        pokemon4: pokemon4,
-        pokemon5: pokemon5,
-        pokemon6: pokemon6
+app.get("/addTransfer", (request, response) => { 
+    response.render("addTransfer");
+});
+
+app.post("/transferCreated", async (request, response) => { 
+    const {
+        transaction_date,
+        amount,
+        description
+    } = request.body;
+
+    const newTransfer = {
+        payee_id: SAVINGS_ACCOUNT,
+        status: "pending",
+        medium: "balance",
+        transaction_date: transaction_date,
+        amount: parseInt(amount),
+        description: description
     };
 
-    response.render("viewTeam", variables);
-});
+    let res = await fetch(`${API_URL}/accounts/${CARD_ACCOUNT}/transfers?key=${API_KEY}`, {
+        method: "POST",
+        body: JSON.stringify(newTransfer),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+      });
 
-app.post("/deleteConfirmed", async (request, response) => {
-    let filter = {name: request.body.name};
-    const result = await client.db(db)
-                   .collection(collection)
-                   .deleteOne(filter);
+    let transfer = await res.json();
     
-    response.render("deleteOneTeam");
+    response.render("transferCreated", transfer["objectCreated"]);
 });
 
-app.post("/deleteAllTeamsConfirmed", async (request, response) => {
-    const result = await client.db(db)
-        .collection(collection)
-        .deleteMany({});
+app.get("/getATMs", async (request, response) => { 
+    if (request.query.lat != null) {
+        lat = request.query.lat;
+    }
+    if (request.query.lng != null) {
+        lng = request.query.lng;
+    }
+    if (request.query.rad != null) {
+        rad = request.query.rad;
+    }
+    let pages = 0;
+    let res = await fetch(`${API_URL}/atms?lat=${lat}&lng=${lng}&rad=${rad}&key=${API_KEY}`);
+    let data = await res.json();
+    let atms = [];
 
-    const variables = {numTeams: result.deletedCount};
-    response.render("deleteAllTeams", variables);
+    while (data.data.length > 0) {
+        pages = pages + 1;
+        for (let item of data.data) {
+            atms.push({"name": item.name, "amount_left": item.amount_left})
+        }
+        res = await fetch(API_URL + `${data.paging.next}`);
+        data = await res.json();
+    }
+    console.log(atms);
+
+    let atmListHTML = "";
+    if (pages == 0) {
+        atmListHTML = `<p>No ATMs Found!</p>`;
+    } else {
+        for (let a of atms) {
+            atmListHTML += `<p>Name: ${a.name}, Amount Left: ${a.amount_left}</p>`;
+        }
+    }
+
+    const newPage = {
+        lat: lat,
+        lng: lng,
+        rad: rad,
+        pages: pages,
+        atmListHTML: atmListHTML
+    };
+
+    response.render("getATMs", newPage);
+});
+
+app.get("/customerProfile", async (request, response) => { 
+    let customerRes = await fetch(`${API_URL}/customers/${NESSIE_ID}?key=${API_KEY}`);
+    let customer = await customerRes.json();
+
+    const variables = {
+        customer: customer
+    };
+
+    response.render("customerProfile", variables);
+});
+
+app.get("/viewCard", async (request, response) => { 
+    let cardRes = await fetch(`${API_URL}/enterprise/accounts/${CARD_ACCOUNT}?key=${API_KEY}`);
+    let card = await cardRes.json();
+
+    const variables = {
+        card: card
+    };
+
+    response.render("viewCard", variables);
+});
+
+app.post("/deleteConfirm", async (request, response) => {
+    await fetch(`${API_URL}/data?type=Purchases&key=${API_KEY}`, { 
+        method: 'DELETE', 
+        headers: {
+            'Content-type': 'application/json'
+        } 
+    });
+
+    response.render("deleteConfirm");
 });
 
 /* START APP */
 app.listen(PORT_NUMBER);
 console.log(`Web server started and running at http://localhost:${PORT_NUMBER}`);
 
-async function main() {
-    try {
-        await client.connect();
-    } catch (e) {
-        console.error(e);
-    }
-}
+async function main() {}
 
 main().catch(console.error);
