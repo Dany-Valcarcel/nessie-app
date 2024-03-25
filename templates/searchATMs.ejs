@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Nessie API App</title>
+    <link rel="stylesheet" href="/style.css" type="text/css">
+</head>
+
+<body>
+	<h1>Search for ATMs</h1>
+    <form action='/getATMs' method="get">
+    <fieldset id="searchATMs">
+        <fieldset class="ATMSearcher">
+            <label>Latitude: <input id="lat" name="lat" type="number" step="0.0001" value="38.92" required></label>
+            <label>Longitude: <input id="lng" name="lng" type="number" step="0.0001" value="-77.17"required></label>
+            <label>Radius (miles): <input id="rad" name="rad" type="number" value="4" required></label>
+        </fieldset>
+        <input class="formButton" type="reset" value="Clear">
+		<input class="formButton" type="submit" value="Search">
+    </fieldset>
+    </form>
+    <a class="backHomeButton" href="/"><strong>Back to Home</strong></a>
+</body>
+</html>

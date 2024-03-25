@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Nessie API App</title>
+    <link rel="stylesheet" href="/style.css" type="text/css">
+</head>
+
+<body>
+	<h1>Transaction Successfully Made!</h1>
+    <div id="transferCreated">
+        <h2>Transaction ID: <%- _id%></h2>
+        <p>Paid to Account ID: <%- payee_id%></p>
+        <p>Medium: <%- medium%></p>
+        <p>Transaction Date: <%- transaction_date%></p> 
+        <p>Transaction Type: <%- type%></p> 
+        <p>Amount: <%- amount%></p>    
+        <p>Description: <%- description%></p>
+        <p>Status: <%- status%></p>
+    </div>
+    <a class="backHomeButton" href="/"><strong>Back to Home</strong></a>
+</body>
+</html>

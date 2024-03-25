@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Nessie API App</title>
+    <link rel="stylesheet" href="/style.css" type="text/css">
+</head>
+
+<body>
+	<h1>Purchase Successfully Made!</h1>
+    <div id="purchaseCreated">
+        <h2>Purchase ID: <%- _id%></h2>
+        <p>Paid to Merchant ID: <%- merchant_id%></p>
+        <p>Medium: <%- medium%></p>
+        <p>Purchase Date: <%- purchase_date%></p>  
+        <p>Amount: <%- amount%></p>    
+        <p>Description: <%- description%></p>
+        <p>Status: <%- status%></p>
+    </div>
+    <a class="backHomeButton" href="/"><strong>Back to Home</strong></a>
+</body>
+</html>

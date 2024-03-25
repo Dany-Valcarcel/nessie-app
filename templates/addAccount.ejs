@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Nessie API App</title>
+    <link rel="stylesheet" href="/style.css" type="text/css">
+</head>
+
+<body>
+	<h1>Add New Account</h1>
+    <form action="/accountCreated" method="post">
+    <fieldset id="addAccount">
+        <label>Account Type: 
+        <select id="type" name="type">
+            <option value="Checking">Checking</option>
+            <option value="Savings">Savings</option>
+            <option value="Credit Card" selected="selected">Credit Card</option>
+        </select></label>
+        <p><label>Nickname: <input id="nickname" name="nickname" type="string" value="Account One" required></label></p>
+        <p><label>Rewards: <input id="rewards" name="rewards" type="number" value=100 required></label></p>
+        <p><label>Balance: <input id="balance" name="balance" type="number" value=200 required></label></p>
+        <input class="formButton" type="reset" value="Clear">
+		<input class="formButton" type="submit" value="Submit">
+    </label>
+    </fieldset>
+    </form>
+    <a class="backHomeButton" href="/"><strong>Back to Home</strong></a>
+</body>
+</html>

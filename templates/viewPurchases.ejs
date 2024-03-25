@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Nessie API App</title>
+    <link rel="stylesheet" href="/teamMaker.css" type="text/css">
+</head>
+
+<body>
+	<h1>All Purchases</h1>
+    <div class="list">
+        <div>
+            <%- purchases%>
+        </div>
+    </div>
+    <div>
+        <form onsubmit="return confirmDelete();" action="/deleteConfirm" method="post">
+            <input type="submit" class="deleteBtn" value="Delete All Purchases">
+        </form>
+    </div>
+    <br>
+    <a class="backHomeButton" href="/"><strong>Back to Home</strong></a>
+    <script>
+        function confirmDelete() {
+            return window.confirm("Are you sure you want to delete all your purchases?");
+        }
+    </script>
+</body>
+</html>

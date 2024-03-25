@@ -1,0 +1,43 @@
+
+body {
+    background-color: white;
+    background-size: 90rem;
+}
+
+h1 {
+    margin-bottom: 0.75rem;
+}
+
+ul {
+    font-size: larger;
+}
+
+.homePageButton {
+    width: 8rem;
+    font-size: 1.2rem;
+}
+
+a:visited:not(.backHomeButton) {
+    color: rgb(252, 226, 55);
+}
+
+.backHomeButton {
+    margin-top: 1.2rem;
+    font-size: larger;
+    color: black
+}
+
+.deleteBtn {
+    font-size: 1.5rem;
+}
+
+.atmList {
+    width: 50rem;
+    height: 30rem;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-style: solid;
+    border-width: 3.5px;
+    border-color: white;
+    margin-bottom: 0.5rem;
+    overflow-y: auto;
+}

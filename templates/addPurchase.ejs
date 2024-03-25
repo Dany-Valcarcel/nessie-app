@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Nessie API App</title>
+    <link rel="stylesheet" href="/style.css" type="text/css">
+</head>
+
+<body>
+	<h1>Add New Purchase</h1>
+    <form action="/purchaseCreated" method="post">
+    <fieldset id="addPurcahse">
+        <p><label>Purchase Date: <input type="date" id="purchase_date" name="purchase_date" value="2024-03-25"></label></p>
+        <p><label>Amount: <input id="amount" name="amount" type="number" value="10" required></label></p>
+        <p><label>Description: <input id="description" name="description" type="string" value="Description" required></label></p>
+        <input class="formButton" type="reset" value="Clear">
+		<input class="formButton" type="submit" value="Submit">
+    </label>
+    </fieldset>
+    </form>
+    <a class="backHomeButton" href="/"><strong>Back to Home</strong></a>
+</body>
+</html>

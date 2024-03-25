@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Nessie API App</title>
+    <link rel="stylesheet" href="/style.css" type="text/css">
+</head>
+
+<body>
+	<h1>Bill Successfully Created!</h1>
+    <div id="billCreated">
+        <h2>Bill ID: <%- _id%></h2>
+        <p>Status: <%- status%></p>
+        <p>Bill Name: <%- nickname%></p>
+        <p>Payment Date: <%- payment_date%></p>  
+        <p>Recurring Date: <%- recurring_date%></p>    
+        <p>Payment Amount: <%- payment_amount%></p>
+        <p>Creation Date: <%- creation_date%></p>
+    </div>
+    <a class="backHomeButton" href="/"><strong>Back to Home</strong></a>
+</body>
+</html>

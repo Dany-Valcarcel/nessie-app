@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Nessie API App</title>
+    <link rel="stylesheet" href="/style.css" type="text/css">
+</head>
+
+<body>
+	<h1>Analyst View of Card Account</h1>
+    <div id="customerProfile">
+        <h2>Account Name: <%- card["nickname"]%></h2>
+        <p>Account ID: <%- card["_id"]%></p>
+        <p>Customer ID: <%- card["customer_id"]%></p>
+        <p>Account Type: <%- card["type"]%></p>   
+        <p>Balance: <%- card["balance"]%></p>
+        <p>Rewards: <%- card["rewards"]%></p>         
+    </div>
+    <a class="backHomeButton" href="/"><strong>Back to Home</strong></a>
+</body>
+</html>

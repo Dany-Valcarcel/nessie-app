@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Nessie API App</title>
+    <link rel="stylesheet" href="/style.css" type="text/css">
+</head>
+
+<body>
+	<h1>New Card Payment (Add Bill)</h1>
+    <form action='/billCreated' method="post">
+    <fieldset id="addBill">
+        <p><label>Payment Name: <input id="nickname" name="nickname" type="string" value="New Payment" required></label></p>
+        <p><label>Payee: <input id="payee" name="payee" type="string" value="Payee" required></label></p>
+        <p><label>Payment Date: <input type="date" id="payment_date" name="payment_date" value="2024-03-25"></label></p>
+        <p><label>Recurring Date: <input id="recurring_date" name="recurring_date" type="number" value="1" required></label></p>
+        <p><label>Payment Amount: <input id="payment_amount" name="payment_amount" type="number" value="500" required></label></p>
+        <input class="formButton" type="reset" value="Clear">
+		<input class="formButton" type="submit" value="Submit">
+    </label>
+    </fieldset>
+    </form>
+    <a class="backHomeButton" href="/"><strong>Back to Home</strong></a>
+</body>
+</html>

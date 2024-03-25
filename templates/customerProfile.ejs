@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Nessie API App</title>
+    <link rel="stylesheet" href="/style.css" type="text/css">
+</head>
+
+<body>
+	<h1>Customer Profile</h1>
+    <div id="customerProfile">
+        <h2>Customer ID: <%- customer["_id"]%></h2>
+        <p>First Name: <%- customer["first_name"]%></p>
+        <p>Last Name: <%- customer["last_name"]%></p>  
+        <p>Address: <%- customer["address"]["street_number"]%> <%- customer["address"]["street_name"]%></p>  
+        <p>State: <%- customer["address"]["state"]%></p>  
+        <p>Zip Code: <%- customer["address"]["zip"]%></p>        
+    </div>
+    <a class="backHomeButton" href="/"><strong>Back to Home</strong></a>
+</body>
+</html>
